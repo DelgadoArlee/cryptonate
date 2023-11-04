@@ -3,6 +3,7 @@ import { WagmiConfig, createConfig, sepolia } from 'wagmi'
 import { createPublicClient, http } from 'viem'
 // import Profile from './components/Profile'
 import Balance from './components/Balance'
+import { DonateButton } from './components/Buttons'
  
 const config = createConfig({
   autoConnect: true,
@@ -20,6 +21,7 @@ function App() {
          <>
          {/* <Profile/> */}
          <Balance/>
+         <DonateButton/>
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
