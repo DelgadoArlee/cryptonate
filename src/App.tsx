@@ -1,12 +1,12 @@
 import './App.css'
-import { WagmiConfig, createConfig, mainnet } from 'wagmi'
+import { WagmiConfig, createConfig, sepolia } from 'wagmi'
 import { createPublicClient, http } from 'viem'
 import Profile from './components/Profile'
  
 const config = createConfig({
   autoConnect: true,
   publicClient: createPublicClient({
-    chain: mainnet,
+    chain: sepolia,
     transport: http()
   }),
 })
