@@ -17,7 +17,7 @@ function DonateButton(){
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
+        >
         <DonationForm/>
       </Modal>
     </>
@@ -26,4 +26,4 @@ function DonateButton(){
 }
 
 
-export { DonateButton }
+export { DonateButton };

@@ -1,7 +1,10 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import Balance from '../Balance'
+import { DonateButton } from '../Buttons'
+import { Typography } from '@mui/material'
  
-function Profile() {
+function Connect() {
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({
     connector: new InjectedConnector(),
@@ -10,12 +13,13 @@ function Profile() {
  
   if (isConnected)
     return (
-      <div>
-        Connected to {address}
+      <>
         <button onClick={() => disconnect()}>Disconnect</button>
-      </div>
+        <Balance/>
+        <DonateButton/>
+      </>
     )
   return <button onClick={() => connect()}>Connect Wallet</button>
 }
 
-export default Profile
+export default Connect
