@@ -14,6 +14,12 @@ function Connect() {
   if (isConnected)
     return (
       <>
+        <Typography variant="h5">
+        User Address: 
+        </Typography>
+        <Typography variant="h5">
+        {address}
+        </Typography>
         <button onClick={() => disconnect()}>Disconnect</button>
         <Balance/>
         <DonateButton/>
