@@ -7,7 +7,7 @@ const config = createConfig({
   autoConnect: true,
   publicClient: createPublicClient({
     chain: sepolia,
-    transport: http()
+    transport: http("https://eth-sepolia.g.alchemy.com/v2/H-WSGl1TPXnOPP0PRU93oLyvE2ZCwl9n")
   }),
 })
 
