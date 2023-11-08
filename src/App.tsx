@@ -1,6 +1,6 @@
-import './App.css'
 import { WagmiConfig, createConfig, sepolia } from 'wagmi'
 import { createPublicClient, http } from 'viem'
+import { Typography, Grid, Stack } from '@mui/material'
 import Connect from './components/Connect'
 
 const config = createConfig({
@@ -15,7 +15,34 @@ function App() {
 
   return (
     <WagmiConfig config={config}>
-         <Connect/>
+      <Grid container spacing={3}  justifyContent="center" alignItems="center" >
+        <Grid  item xs >
+         {/* Put leaderboard here*/}
+        </Grid>
+        <Grid item xs={6}  >
+          <Stack spacing={3} sx={{justifyContent:'center', alignItems:"center" }}>
+            <Typography sx={{fontWeight: "bold"}} align="center" variant="h1">
+              CRYPTONATE
+            </Typography>
+            <Typography variant="body2" align="center" gutterBottom>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse finibus aliquet dui pellentesque egestas. Nullam est ipsum, consequat in sapien id, blandit feugiat sem. Aliquam gravida, est sit amet vehicula vestibulum, mi arcu semper urna, nec scelerisque quam lectus sed leo. Mauris convallis purus sit amet lacus aliquam faucibus. In quis magna ut lorem ultricies semper in ut ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris eu metus ut sem venenatis pharetra sit amet et purus. Phasellus consequat malesuada nisi vitae pharetra.             
+            </Typography>
+            <Connect/>
+          </Stack>
+          <Grid item xs>
+            
+          </Grid>
+          <Grid item xs>
+
+          </Grid>
+          <Grid item xs>
+
+          </Grid>
+        </Grid>
+        <Grid item xs>
+
+        </Grid>
+      </Grid>
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

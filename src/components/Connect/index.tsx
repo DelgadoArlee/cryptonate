@@ -2,30 +2,68 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import Balance from '../Balance'
 import { DonateButton } from '../Buttons'
-import { Typography } from '@mui/material'
+import { Button, Grid, Paper, Stack, Typography } from '@mui/material'
  
 function Connect() {
-  const { address, isConnected } = useAccount()
+  const { isConnected, isDisconnected } = useAccount()
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   })
   const { disconnect } = useDisconnect()
  
-  if (isConnected)
+
     return (
       <>
-        <Typography variant="h5">
-        User Address: 
-        </Typography>
-        <Typography variant="h5">
-        {address}
-        </Typography>
-        <button onClick={() => disconnect()}>Disconnect</button>
-        <Balance/>
-        <DonateButton/>
+        {isConnected &&
+        <Paper elevation={12} sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+          <Stack sx={{border: 1, borderRadius: 'px', padding: 2}}spacing={2}>
+          {/* <Grid item sm={12}>
+
+          </Grid>
+          <Grid item xs>
+
+          </Grid>
+          <Grid item xs>
+        
+          </Grid>
+          <Grid item xs>
+  
+          </Grid> */}
+          <Typography sx={{borderBottom: 2, paddingBottom: 1}} variant="h3" align="center">
+            Just My Hiling!
+          </Typography>
+          <Balance/>
+          <DonateButton/>
+          <Button variant="contained" color="primary" onClick={() => disconnect()}>
+            <Typography variant="button">
+              DISCONNECT
+            </Typography>
+          </Button>
+        </Stack> 
+        </Paper>
+
+    
+        }
+        {isDisconnected && 
+          
+           <Button  sx={{width: '25%',}}variant="contained"  color="primary" onClick={() => connect()}>
+              <Typography variant="button">
+                CONNECT
+              </Typography>
+            </Button>
+     
+        }
       </>
     )
-  return <button onClick={() => connect()}>Connect Wallet</button>
+  return (
+          <Grid container >
+            <Button variant="contained"  color="primary" onClick={() => connect()}>
+              <Typography variant="button">
+                CONNECT
+              </Typography>
+            </Button>
+          </Grid>
+        )
 }
 
 export default Connect
