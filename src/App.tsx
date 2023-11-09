@@ -7,12 +7,11 @@ const config = createConfig({
   autoConnect: true,
   publicClient: createPublicClient({
     chain: sepolia,
-    transport: http("https://eth-sepolia.g.alchemy.com/v2/H-WSGl1TPXnOPP0PRU93oLyvE2ZCwl9n")
+    transport: http(import.meta.env.RPC_URL)
   }),
 })
 
 function App() {
-
   return (
     <WagmiConfig config={config}>
       <Grid container spacing={3}  justifyContent="center" alignItems="center" >
