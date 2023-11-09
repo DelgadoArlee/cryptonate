@@ -1,8 +1,8 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import Balance from '../Balance'
 import { DonateButton } from '../Buttons'
 import { Button, Grid, Paper, Stack, Typography } from '@mui/material'
+import Donations from '../Donations'
  
 function Connect() {
   const { isConnected, isDisconnected } = useAccount()
@@ -32,7 +32,7 @@ function Connect() {
           <Typography sx={{borderBottom: 2, paddingBottom: 1}} variant="h3" align="center">
             Just My Hiling!
           </Typography>
-          <Balance/>
+          <Donations/>
           <DonateButton/>
           <Button variant="contained" color="primary" onClick={() => disconnect()}>
             <Typography variant="button">
