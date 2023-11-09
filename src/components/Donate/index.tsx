@@ -19,7 +19,7 @@ const style = {
   };
 
 
-function DonateButton(){
+function Donate(){
     const [open, setOpen] = useState(false);
     const [amount, setAmount] = useState('');
 
@@ -90,4 +90,4 @@ function DonateButton(){
 }
 
 
-export { DonateButton };
+export default Donate;
