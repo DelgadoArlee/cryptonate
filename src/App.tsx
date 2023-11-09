@@ -3,11 +3,15 @@ import { createPublicClient, http } from 'viem'
 import { Typography, Grid, Stack } from '@mui/material'
 import Connect from './components/Connect'
 
+const fetchOptions: RequestInit = {
+  mode: 'cors'
+}
+
 const config = createConfig({
   autoConnect: true,
   publicClient: createPublicClient({
     chain: sepolia,
-    transport: http(import.meta.env.RPC_URL)
+    transport: http(import.meta.env.RPC_URL,{fetchOptions})
   }),
 })
 
