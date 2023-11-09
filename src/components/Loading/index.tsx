@@ -3,7 +3,12 @@ import { Grid, CircularProgress, Box } from '@mui/material';
 
 function Loading() {
   return (
-    <Box sx={{ padding: '25%', height: '85vh' }}>
+    <Box>
+      <CircularProgress size={150} />
+    </Box>
+  );
+  return (
+    <Box sx={{ padding: '25%' }}>
       <Grid
         container
         sx={{
@@ -13,7 +18,7 @@ function Loading() {
         }}
       >
         <Grid item>
-          <CircularProgress size={100} />
+          <CircularProgress size={150} />
         </Grid>
       </Grid>
     </Box>
