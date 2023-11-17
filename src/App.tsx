@@ -3,16 +3,19 @@ import { createPublicClient, http } from 'viem'
 import { Typography, Grid, Stack } from '@mui/material'
 import Connect from './components/Connect'
 
+const fetchOptions: RequestInit = {
+  mode: 'cors'
+}
+
 const config = createConfig({
   autoConnect: true,
   publicClient: createPublicClient({
     chain: sepolia,
-    transport: http("https://eth-sepolia.g.alchemy.com/v2/H-WSGl1TPXnOPP0PRU93oLyvE2ZCwl9n")
+    transport: http(import.meta.env.RPC_URL,{fetchOptions})
   }),
 })
 
 function App() {
-
   return (
     <WagmiConfig config={config}>
       <Grid container spacing={3}  justifyContent="center" alignItems="center" >
