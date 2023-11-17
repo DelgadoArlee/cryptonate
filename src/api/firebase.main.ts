@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import "dotenv/config";
+import { initializeApp } from 'firebase/app';
+import 'dotenv/config';
+import { FirebaseService } from './firebase.service';
+import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: process.env.apiKey,
@@ -15,3 +17,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+
+// Initialize FirebaseRealtimeDatabase
+export const fireDb = new FirebaseService(getDatabase(app));
