@@ -30,7 +30,7 @@ const style = {
 function Donate() {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState('');
-
+  const [amountError, setAmountError] = useState(false);
   const [debouncedAmount] = useDebounce(amount, 500);
 
   const handleOpen = () => setOpen(true);
@@ -53,14 +53,37 @@ function Donate() {
     },
   });
 
+  const isValidAmount = (input: string) => {
+    const amount = parseFloat(input);
+
+    if (Number.isNaN(amount) || amount < 0) {
+      setAmountError(true);
+    } else {
+      setAmountError(false);
+    }
+  };
+
   const onAmountChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => setAmount(e.target.value);
+  ) => {
+    let input = e.target.value;
+    const nonNumeric = /-?[A-Za-z\s]*(?:\.{2})?$/g;
+    const isNonNumeric = nonNumeric.test(input);
+
+    if (isNonNumeric) {
+      input = input.replaceAll(nonNumeric, '');
+      e.target.value = input;
+    }
+    setAmount(input);
+  };
 
   const submit = (e: FormEvent) => {
-    console.log(status);
     e.preventDefault();
-    sendTransaction?.();
+    isValidAmount(amount);
+    console.log(amountError);
+    if (!amountError) {
+      sendTransaction?.();
+    }
   };
 
   const modalContent = () => {
@@ -101,6 +124,8 @@ function Donate() {
           label="Amount"
           placeholder="0.00"
           variant="outlined"
+          error={amountError}
+          helperText={amountError ? 'Invalid amount' : ''}
         />
         <Button type="submit" variant="contained">
           Submit
