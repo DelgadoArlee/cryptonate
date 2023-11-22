@@ -46,7 +46,7 @@ function Donate() {
 
   const { data, sendTransaction } = useSendTransaction(config);
 
-  const { isLoading, isSuccess, status } = useWaitForTransaction({
+  const { isLoading, isSuccess } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess() {
       closeModal();
