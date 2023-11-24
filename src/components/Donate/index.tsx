@@ -32,6 +32,7 @@ function Donate() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
+  const [disableSubmit, setdisableSubmit] = useState(true);
   const [debouncedAmount] = useDebounce(amount, 500);
 
   const handleOpen = () => setOpen(true);
@@ -62,10 +63,12 @@ function Donate() {
   const isValidAmount = (input: string) => {
     const amount = parseFloat(input);
 
-    if (Number.isNaN(amount) || amount < 0) {
+    if (Number.isNaN(amount) || amount < 0 || amount == 0) {
       setAmountError(true);
+      setdisableSubmit(true);
     } else {
       setAmountError(false);
+      setdisableSubmit(false);
     }
   };
 
@@ -81,11 +84,11 @@ function Donate() {
       e.target.value = input;
     }
     setAmount(input);
+    isValidAmount(input);
   };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    isValidAmount(amount);
     console.log(amountError);
     if (!amountError) {
       handleClose();
@@ -127,7 +130,7 @@ function Donate() {
               error={amountError}
               helperText={amountError ? 'Invalid amount' : ''}
             />
-            <Button type="submit" variant="contained">
+            <Button disabled={disableSubmit} type="submit" variant="contained">
               Submit
             </Button>
           </Stack>
