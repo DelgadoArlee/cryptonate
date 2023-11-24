@@ -29,6 +29,7 @@ const style = {
 
 function Donate() {
   const [open, setOpen] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
   const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
   const [debouncedAmount] = useDebounce(amount, 500);
@@ -37,7 +38,11 @@ function Donate() {
 
   const handleClose = () => setOpen(false);
 
-  const closeModal = useDebouncedCallback(handleClose, 3000);
+  const handleSuccessOpen = () => setOpenSuccess(true);
+
+  const handleSuccessClose = () => setOpenSuccess(false);
+
+  const closeModal = useDebouncedCallback(handleSuccessClose, 3000);
 
   const { config } = usePrepareSendTransaction({
     to: '0x00e2560fFE320cE84Cc2F1C71E6563CBb6D465b2',
@@ -46,9 +51,10 @@ function Donate() {
 
   const { data, sendTransaction } = useSendTransaction(config);
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const { isLoading } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess() {
+      handleSuccessOpen();
       closeModal();
     },
   });
@@ -82,56 +88,9 @@ function Donate() {
     isValidAmount(amount);
     console.log(amountError);
     if (!amountError) {
+      handleClose();
       sendTransaction?.();
     }
-  };
-
-  const modalContent = () => {
-    if (isLoading) {
-      return (
-        <>
-          <Typography variant="h4" fontWeight="bold" align="center">
-            Processing Donation...
-          </Typography>
-          <Loading />
-        </>
-      );
-    }
-
-    if (isSuccess) {
-      return (
-        <>
-          <Typography variant="h3">Thank You!!!</Typography>
-          <Typography variant="h5">Transaction Successful!!!</Typography>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <Typography variant="h4" fontWeight="bold" align="center">
-          DONATE CRYPTO
-        </Typography>
-        <TextField
-          id="donate-name"
-          label="Name"
-          placeholder="John"
-          variant="outlined"
-        />
-        <TextField
-          onChange={onAmountChange}
-          id="donate-amount"
-          label="Amount"
-          placeholder="0.00"
-          variant="outlined"
-          error={amountError}
-          helperText={amountError ? 'Invalid amount' : ''}
-        />
-        <Button type="submit" variant="contained">
-          Submit
-        </Button>
-      </>
-    );
   };
 
   return (
@@ -150,7 +109,60 @@ function Donate() {
             spacing={3}
             sx={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            {modalContent()}
+            <Typography variant="h4" fontWeight="bold" align="center">
+              DONATE CRYPTO
+            </Typography>
+            <TextField
+              id="donate-name"
+              label="Name"
+              placeholder="John"
+              variant="outlined"
+            />
+            <TextField
+              onChange={onAmountChange}
+              id="donate-amount"
+              label="Amount"
+              placeholder="0.00"
+              variant="outlined"
+              error={amountError}
+              helperText={amountError ? 'Invalid amount' : ''}
+            />
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+      <Modal
+        open={isLoading}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box component="form" onSubmit={submit} sx={style}>
+          <Stack
+            spacing={3}
+            sx={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Typography variant="h4" fontWeight="bold" align="center">
+              Processing Donation...
+            </Typography>
+            <Loading />
+          </Stack>
+        </Box>
+      </Modal>
+      <Modal
+        open={openSuccess}
+        onClose={handleSuccessClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box component="form" onSubmit={submit} sx={style}>
+          <Stack
+            spacing={3}
+            sx={{ justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Typography variant="h3">Thank You!!!</Typography>
+            <Typography variant="h5">Transaction Successful!!!</Typography>
           </Stack>
         </Box>
       </Modal>
