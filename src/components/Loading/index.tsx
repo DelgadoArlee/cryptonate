@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid, CircularProgress, Box } from '@mui/material';
 
 function Loading() {
