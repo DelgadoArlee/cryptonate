@@ -2,7 +2,6 @@ import { WagmiConfig, createConfig, sepolia } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { Typography, Grid, Stack } from '@mui/material';
 import Connect from './components/Connect';
-import { fireDb } from './api/firebase.main';
 
 const fetchOptions: RequestInit = {
   mode: 'cors',
@@ -15,8 +14,6 @@ const config = createConfig({
     transport: http(import.meta.env.VITE_RPC_URL, { fetchOptions }),
   }),
 });
-
-console.log(fireDb.getTransactions());
 
 function App() {
   return (

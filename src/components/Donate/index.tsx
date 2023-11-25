@@ -54,7 +54,7 @@ function Donate(props: DonateProps) {
   const closeModal = useDebouncedCallback(handleSuccessClose, 3000);
 
   const saveToDb = async () => {
-    console.log('run');
+    console.log(name);
     await fireDb
       .addDonor(address, name, parseFloat(amount))
       .then(() => {

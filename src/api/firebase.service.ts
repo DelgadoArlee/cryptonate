@@ -20,8 +20,10 @@ export class FirebaseService {
         donor.name = name;
         donor.totalDonations += amount;
       } else {
-        donor.name = name;
-        donor.totalDonations = amount;
+        donor = {
+          name: name,
+          totalDonations: amount,
+        };
       }
 
       return donor;
