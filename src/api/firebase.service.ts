@@ -3,6 +3,7 @@ import {
   Database,
   DatabaseReference,
   onValue,
+  runTransaction,
   push,
   ref,
 } from 'firebase/database';
@@ -10,6 +11,24 @@ import { Donation } from './models/donation.entity';
 
 export class FirebaseService {
   constructor(private readonly db: Database) {}
+
+  async addDonor(id: string, name: string, amount: number): Promise<void> {
+    const reference: DatabaseReference = ref(this.db, 'donors/' + id);
+
+    runTransaction(reference, (donor) => {
+      if (donor) {
+        donor.name = name;
+        donor.totalDonations += amount;
+      } else {
+        donor = {
+          name: name,
+          totalDonations: amount,
+        };
+      }
+
+      return donor;
+    });
+  }
 
   async addTransaction(userId: string, amount: number): Promise<void> {
     const reference: DatabaseReference = ref(
