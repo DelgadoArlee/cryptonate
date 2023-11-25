@@ -15,6 +15,11 @@ import {
 } from 'wagmi';
 import { parseEther } from 'viem';
 import Loading from '../Loading';
+import { fireDb } from '../../api/firebase.main';
+
+interface DonateProps {
+  address: string;
+}
 
 const style = {
   position: 'absolute',
@@ -27,13 +32,16 @@ const style = {
   p: 4,
 };
 
-function Donate() {
+function Donate(props: DonateProps) {
   const [open, setOpen] = useState(false);
   const [openSuccess, setOpenSuccess] = useState(false);
+  const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
   const [disableSubmit, setdisableSubmit] = useState(true);
   const [debouncedAmount] = useDebounce(amount, 500);
+
+  const { address } = props;
 
   const handleOpen = () => setOpen(true);
 
@@ -45,6 +53,17 @@ function Donate() {
 
   const closeModal = useDebouncedCallback(handleSuccessClose, 3000);
 
+  const saveToDb = async () => {
+    console.log('run');
+    await fireDb
+      .addDonor(address, name, parseFloat(amount))
+      .then(() => {
+        handleSuccessOpen();
+        closeModal();
+      })
+      .catch((err) => console.log(err));
+  };
+
   const { config } = usePrepareSendTransaction({
     to: '0x00e2560fFE320cE84Cc2F1C71E6563CBb6D465b2',
     value: debouncedAmount ? parseEther(debouncedAmount) : undefined,
@@ -55,8 +74,7 @@ function Donate() {
   const { isLoading } = useWaitForTransaction({
     hash: data?.hash,
     onSuccess() {
-      handleSuccessOpen();
-      closeModal();
+      saveToDb();
     },
   });
 
@@ -71,6 +89,10 @@ function Donate() {
       setdisableSubmit(false);
     }
   };
+
+  const onNameChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => setName(e.target.value);
 
   const onAmountChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -120,6 +142,7 @@ function Donate() {
               label="Name"
               placeholder="John"
               variant="outlined"
+              onChange={onNameChange}
             />
             <TextField
               onChange={onAmountChange}
