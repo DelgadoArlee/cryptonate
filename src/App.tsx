@@ -1,24 +1,12 @@
-import { WagmiConfig, createConfig, sepolia } from 'wagmi';
-import { createPublicClient, http } from 'viem';
+import { WagmiConfig } from 'wagmi';
 import { Typography, Grid, Stack } from '@mui/material';
+import wagmiConfig from './config/wagmi';
 import Connect from './components/Connect';
 import Leaderboard from './components/Leaderboard';
 
-const fetchOptions: RequestInit = {
-  mode: 'cors',
-};
-
-const config = createConfig({
-  autoConnect: true,
-  publicClient: createPublicClient({
-    chain: sepolia,
-    transport: http(import.meta.env.VITE_RPC_URL, { fetchOptions }),
-  }),
-});
-
 function App() {
   return (
-    <WagmiConfig config={config}>
+    <WagmiConfig config={wagmiConfig}>
       <Grid container spacing={3} justifyContent="center" alignItems="center">
         <Grid item xs>
           <Leaderboard />
