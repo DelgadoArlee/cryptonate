@@ -12,8 +12,8 @@ import { Donation } from './models/donation.entity';
 export class FirebaseService {
   constructor(private readonly db: Database) {}
 
-  async addDonor(id: string, name: string, amount: number): Promise<void> {
-    const reference: DatabaseReference = ref(this.db, 'donors/' + id);
+  async addDonor(key: string, name: string, amount: number): Promise<void> {
+    const reference: DatabaseReference = ref(this.db, 'donors/' + key);
 
     runTransaction(reference, (donor) => {
       if (donor) {
