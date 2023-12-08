@@ -15,6 +15,9 @@ import {
 } from 'wagmi';
 import { parseEther } from 'viem';
 import Loading from '../Loading';
+import firebase from 'firebase/compat/app';
+import { FirebaseService } from '../../api/firebase.service';
+import { fireDb } from '../../api/firebase.main';
 
 const style = {
   position: 'absolute',
