@@ -3,6 +3,7 @@ import { createPublicClient, http } from 'viem';
 import { Typography, Grid, Stack } from '@mui/material';
 import Connect from './components/Connect';
 import Leaderboard from './components/Leaderboard';
+import { fireDb } from './api/firebase.main';
 
 const fetchOptions: RequestInit = {
   mode: 'cors',
