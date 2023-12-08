@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Box,
   Paper,
@@ -11,20 +12,25 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-
-function createData(name: string, amount: number) {
-  return { name, amount };
-}
-
-const rows = [
-  createData('AB', 159),
-  createData('CD', 237),
-  createData('EF', 262),
-  createData('GH', 305),
-  createData('IJ', 356),
-];
+import Donor from '../../api/models/donor.entity';
+import { fireDb } from '../../api/firebase.main';
 
 function Leaderboard() {
+  const [topDonors, setTopDonors] = useState<Donor[]>([]);
+
+  useEffect(() => {
+    // Function to fetch data from Firestore
+    const fetchTopDonors = async () => {
+      await fireDb
+        .getTopDonors()
+        .then((result) => setTopDonors(result))
+        .catch((err) => console.log(err));
+    };
+
+    // Call the fetch data function
+    fetchTopDonors();
+  }, [topDonors]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -55,15 +61,15 @@ function Leaderboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {topDonors.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.key}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell align="right">{row.amount}</TableCell>
+                  <TableCell align="right">{row.totalDonations}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
