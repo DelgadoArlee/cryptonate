@@ -6,14 +6,16 @@ import {
   runTransaction,
   push,
   ref,
+  IteratedDataSnapshot,
 } from 'firebase/database';
 import { Donation } from './models/donation.entity';
+import Donor from './models/donor.entity';
 
 export class FirebaseService {
   constructor(private readonly db: Database) {}
 
-  async addDonor(id: string, name: string, amount: number): Promise<void> {
-    const reference: DatabaseReference = ref(this.db, 'donors/' + id);
+  async addDonor(key: string, name: string, amount: number): Promise<void> {
+    const reference: DatabaseReference = ref(this.db, 'donors/' + key);
 
     runTransaction(reference, (donor) => {
       if (donor) {
@@ -28,6 +30,35 @@ export class FirebaseService {
 
       return donor;
     });
+  }
+
+  async getTopDonors(): Promise<Donor[]> {
+    const reference: DatabaseReference = ref(this.db, 'donors/');
+    let topDonors: Donor[] = [];
+
+    const findTopDonors = (donorSnapshot: DataSnapshot) => {
+      const donors: Donor[] = [];
+      const donorArray = (donor: IteratedDataSnapshot) => {
+        donors.push(
+          new Donor(donor.key, donor.val().name, donor.val().totalDonations),
+        );
+      };
+
+      if (donorSnapshot.exists()) {
+        donorSnapshot.forEach(donorArray);
+      }
+
+      const highestDonors = (a: Donor, b: Donor) =>
+        b.totalDonations - a.totalDonations;
+
+      donors.sort(highestDonors);
+
+      topDonors = donors.slice(0, 10);
+    };
+
+    onValue(reference, findTopDonors);
+
+    return topDonors;
   }
 
   async addTransaction(userId: string, amount: number): Promise<void> {

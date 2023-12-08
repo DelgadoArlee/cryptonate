@@ -2,6 +2,7 @@ import { WagmiConfig, createConfig, sepolia } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { Typography, Grid, Stack } from '@mui/material';
 import Connect from './components/Connect';
+import Leaderboard from './components/Leaderboard';
 
 const fetchOptions: RequestInit = {
   mode: 'cors',
@@ -20,7 +21,7 @@ function App() {
     <WagmiConfig config={config}>
       <Grid container spacing={3} justifyContent="center" alignItems="center">
         <Grid item xs>
-          {/* Put leaderboard here*/}
+          <Leaderboard />
         </Grid>
         <Grid item xs={6}>
           <Stack
