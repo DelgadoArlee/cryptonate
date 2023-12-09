@@ -1,22 +1,10 @@
-import { WagmiConfig, createConfig, sepolia } from 'wagmi';
-import { createPublicClient, http } from 'viem';
+import { WagmiConfig } from 'wagmi';
 import Connect from './components/Connect';
-
-const fetchOptions: RequestInit = {
-  mode: 'cors',
-};
-
-const config = createConfig({
-  autoConnect: true,
-  publicClient: createPublicClient({
-    chain: sepolia,
-    transport: http(import.meta.env.VITE_RPC_URL, { fetchOptions }),
-  }),
-});
+import cryptonateConfig from './config/wagmi';
 
 function App() {
   return (
-    <WagmiConfig config={config}>
+    <WagmiConfig config={cryptonateConfig}>
       <Connect />
     </WagmiConfig>
   );
