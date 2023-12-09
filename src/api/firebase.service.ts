@@ -32,7 +32,7 @@ export class FirebaseService {
     });
   }
 
-  async getTopDonors(): Promise<Donor[]> {
+  getTopDonors(): Donor[] {
     const reference: DatabaseReference = ref(this.db, 'donors/');
     let topDonors: Donor[] = [];
 
@@ -52,6 +52,7 @@ export class FirebaseService {
         b.totalDonations - a.totalDonations;
 
       donors.sort(highestDonors);
+      console.log(topDonors);
 
       topDonors = donors.slice(0, 10);
     };
