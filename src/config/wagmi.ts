@@ -18,10 +18,10 @@ const connectors = [new MetaMaskConnector({ chains })];
 //   mode: 'cors',
 // };
 
-const wagmiConfig = createConfig({
+const cryptonateConfig = createConfig({
   autoConnect: true,
   connectors,
   publicClient,
 });
 
-export default wagmiConfig;
+export default cryptonateConfig;
