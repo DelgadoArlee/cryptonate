@@ -18,7 +18,7 @@ import { fireDb } from '../../api/firebase.main';
 
 function Leaderboard() {
   const [topDonors, setTopDonors] = useState<Donor[]>([]);
-  const { isFetching, isSuccess } = useBalance({
+  const { isFetching } = useBalance({
     address: '0x00e2560fFE320cE84Cc2F1C71E6563CBb6D465b2',
     watch: true,
   });
@@ -26,7 +26,7 @@ function Leaderboard() {
   useEffect(() => {
     // Function to fetch data from Firestore
     setTopDonors(fireDb.getTopDonors());
-  }, [isFetching, isSuccess]);
+  }, [isFetching]);
 
   return (
     <Box sx={{ width: '100%' }}>
