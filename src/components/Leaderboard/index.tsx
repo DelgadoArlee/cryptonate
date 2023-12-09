@@ -12,24 +12,21 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { useBalance } from 'wagmi';
 import Donor from '../../api/models/donor.entity';
 import { fireDb } from '../../api/firebase.main';
 
 function Leaderboard() {
   const [topDonors, setTopDonors] = useState<Donor[]>([]);
+  const { isFetching } = useBalance({
+    address: '0x00e2560fFE320cE84Cc2F1C71E6563CBb6D465b2',
+    watch: true,
+  });
 
   useEffect(() => {
     // Function to fetch data from Firestore
-    const fetchTopDonors = async () => {
-      await fireDb
-        .getTopDonors()
-        .then((result) => setTopDonors(result))
-        .catch((err) => console.log(err));
-    };
-
-    // Call the fetch data function
-    fetchTopDonors();
-  }, [topDonors]);
+    setTopDonors(fireDb.getTopDonors());
+  }, [isFetching]);
 
   return (
     <Box sx={{ width: '100%' }}>
