@@ -1,3 +1,4 @@
+import React from 'react';
 import { useConnect, useDisconnect, useAccount } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { Button, Grid, Paper, Stack, Typography } from '@mui/material';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useBalance } from 'wagmi';
 import Loading from '../Loading';
 import { Typography, Grid } from '@mui/material';

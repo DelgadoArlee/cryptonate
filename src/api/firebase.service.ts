@@ -73,42 +73,42 @@ export class FirebaseService {
     await push(reference, donation);
   }
 
-  async getTransactions(): Promise<{ [userId: string]: number }> {
-    const reference: DatabaseReference = ref(this.db, 'transactions/');
+  // async getTransactions(): Promise<{ [userId: string]: number }> {
+  //   const reference: DatabaseReference = ref(this.db, 'transactions/');
 
-    // Create a promise to handle the asynchronous operation
-    const leaderboardPromise = new Promise<{ [userId: string]: number }>(
-      (resolve, reject) => {
-        onValue(
-          reference,
-          (usersSnapshot: DataSnapshot) => {
-            const leaderboard: { [userId: string]: number } = {};
+  //   // Create a promise to handle the asynchronous operation
+  //   const leaderboardPromise = new Promise<{ [userId: string]: number }>(
+  //     (resolve, reject) => {
+  //       onValue(
+  //         reference,
+  //         (usersSnapshot: DataSnapshot) => {
+  //           const leaderboard: { [userId: string]: number } = {};
 
-            usersSnapshot.forEach((userSnapshot: DataSnapshot) => {
-              const userId = userSnapshot.key as string;
-              const userDonations = Object.values(
-                userSnapshot.val().donations,
-              ) as Donation[];
+  //           usersSnapshot.forEach((userSnapshot: DataSnapshot) => {
+  //             const userId = userSnapshot.key as string;
+  //             const userDonations = Object.values(
+  //               userSnapshot.val().donations,
+  //             ) as Donation[];
 
-              // Calculate the total donation amount for each user
-              let totalAmount = 0;
-              userDonations.forEach((donation: Donation) => {
-                totalAmount += donation.amount;
-              });
+  //             // Calculate the total donation amount for each user
+  //             let totalAmount = 0;
+  //             userDonations.forEach((donation: Donation) => {
+  //               totalAmount += donation.amount;
+  //             });
 
-              leaderboard[userId] = totalAmount;
-            });
+  //             leaderboard[userId] = totalAmount;
+  //           });
 
-            resolve(leaderboard);
-          },
-          (error) => {
-            reject(error);
-          },
-        );
-      },
-    );
+  //           resolve(leaderboard);
+  //         },
+  //         (error) => {
+  //           reject(error);
+  //         },
+  //       );
+  //     },
+  //   );
 
-    // Return the leaderboard
-    return leaderboardPromise;
-  }
+  //   // Return the leaderboard
+  //   return leaderboardPromise;
+  // }
 }
