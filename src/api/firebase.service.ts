@@ -14,10 +14,8 @@ import Donor from './models/donor.entity';
 export class FirebaseService {
   constructor(private readonly db: Database) {}
 
-  async addDonor(key: string, name: string, amount: number): Promise<void> {
-    const reference: DatabaseReference = ref(this.db, 'donors/' + key);
-
-    runTransaction(reference, (donor) => {
+  public createDonor(name: string, amount: number) {
+    return (donor?: { name: string; totalDonations: number }) => {
       if (donor) {
         donor.name = name;
         donor.totalDonations += amount;
@@ -29,7 +27,17 @@ export class FirebaseService {
       }
 
       return donor;
-    });
+    };
+  }
+
+  public async addDonor(
+    key: string,
+    name: string,
+    amount: number,
+  ): Promise<void> {
+    const reference: DatabaseReference = ref(this.db, 'donors/' + key);
+
+    await runTransaction(reference, this.createDonor(name, amount));
   }
 
   getTopDonors(): Donor[] {
