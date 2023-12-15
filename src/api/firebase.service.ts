@@ -60,7 +60,6 @@ export class FirebaseService {
         b.totalDonations - a.totalDonations;
 
       donors.sort(highestDonors);
-      console.log(topDonors);
 
       topDonors = donors.slice(0, 10);
     };
