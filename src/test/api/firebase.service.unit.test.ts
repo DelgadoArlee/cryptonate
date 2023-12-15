@@ -1,13 +1,20 @@
 import { vi, describe } from 'vitest';
-import { runTransaction, ref, getDatabase } from 'firebase/database';
+import {
+  runTransaction,
+  ref,
+  getDatabase,
+  onValue,
+  DataSnapshot,
+} from 'firebase/database';
 import { FirebaseService } from '../../api/firebase.service';
 
 vi.mock('firebase/database', () => {
   const getDatabase = vi.fn();
   const ref = vi.fn();
   const runTransaction = vi.fn();
+  const onValue = vi.fn();
 
-  return { getDatabase, ref, runTransaction };
+  return { getDatabase, ref, runTransaction, onValue };
 });
 
 afterEach(() => {
@@ -58,8 +65,20 @@ describe('FirebaseService', () => {
       await firebaseService.addDonor(key, name, amount);
       expect(runTransaction).toHaveBeenCalled();
       expect(ref).toHaveBeenCalled();
+      expect(ref).toHaveBeenCalledWith(getDatabase(), 'donors/' + key);
       expect(fireDbSpy).toHaveBeenCalled();
       expect(fireDbSpy).toHaveBeenCalledWith(name, amount);
+    });
+  });
+
+  describe('getTopDonors method', () => {
+    it('gets snapshot of donors from the firebase RDB, converts and returns them as an array and sorts them by total donations', () => {
+      const firebaseService = new FirebaseService(getDatabase());
+      const topDonors = firebaseService.getTopDonors();
+
+      expect(ref).toHaveBeenCalled();
+      expect(ref).toHaveBeenCalledWith(getDatabase(), 'donors/');
+      expect(onValue).toHaveBeenCalled();
     });
   });
 });
